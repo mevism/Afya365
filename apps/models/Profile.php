@@ -4,6 +4,10 @@ namespace models;
 
 use Yii;
 use models\User;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+
+
 /**
  * This is the model class for table "{{%profile}}".
  *
@@ -12,7 +16,7 @@ use models\User;
  * @property int|null $first_name
  * @property string|null $middle_name
  * @property string|null $last_name
- * @property string|null $dob
+ * @property string|null $date_of_birth
  * @property string|null $email
  * @property string|null $gender
  * @property string|null $blood_group
@@ -28,14 +32,14 @@ use models\User;
  *   schema="CreateProfile",
  *   title="Profile",
  *   type="object",
- *   required={"username","first_name","middle_name", "last_name","dob","email","gender","blood_group","phone","residence"},
+ *   required={"first_name","last_name","date_of_birth","gender","blood_group","county_of_residence","sub_county"},
  *  
  * @OA\Property(
- *    property="username",
- *    type="string",
- *   ), 
- * @OA\Property(
  *    property="first_name",
+ *    type="string",
+ *   ),
+ * @OA\Property(
+ *    property="middle_name",
  *    type="string",
  *   ),
  * 
@@ -44,33 +48,33 @@ use models\User;
  *    type="string",
  *   ),
  *  @OA\Property(
+ *    property="email",
+ *    type="string",
+ *   ),
+ *  @OA\Property(
  *    property="gender",
  *    type="string",
  *   ),
+  * @OA\Property(
+ *    property="date_of_birth",
+ *    type="string",
+ *   ), 
  *  @OA\Property(
  *    property="blood_group",
  *    type="string",
  *   ),
  *  @OA\Property(
- *    property="phone",
+ *    property="county_of_residence",
  *    type="string",
  *   ),
  *  @OA\Property(
- *    property="nationality",
+ *    property="sub_county",
  *    type="string",
  *   ),
  * @OA\Property(
- *    property="occupation",
+ *    property="address",
  *    type="string",
- *   ),
- *  @OA\Property(
- *    property="residence",
- *    type="string",
- *   ),
- * @OA\Property(
- *    property="user_id",
- *    type="integer",
- *   ),
+ *   ), 
  * )
  */
 
@@ -78,7 +82,7 @@ use models\User;
  * @OA\Schema(
  *   schema="UpdateProfile",
  *   type="object",
- *   required={"username","first_name","middle_name", "last_name","dob","email","gender","blood_group","phone","residence"},
+ *   required={"first_name","last_name","date_of_birth","gender","blood_group","county_of_residence","sub_county"},
  *   allOf={
  *       @OA\Schema(ref="#/components/schemas/CreateProfile"),
  *   }
@@ -89,7 +93,7 @@ use models\User;
  * @OA\Schema(
  *   schema="Profile",
  *   type="object",
- *   required={"username","first_name","middle_name", "last_name","dob","email","gender","blood_group","phone","residence"},
+ *   required={"first_name","last_name","date_of_birth","gender","blood_group","county_of_residence","sub_county"},
  *   allOf={
  *       @OA\Schema(ref="#/components/schemas/CreateProfile"),
  *       @OA\Schema(
@@ -112,7 +116,7 @@ use models\User;
  *     )
  * )
  */
-class Profile extends \yii\db\ActiveRecord
+class Profile extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -122,42 +126,52 @@ class Profile extends \yii\db\ActiveRecord
         return '{{%profile}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+    public function behaviors()
     {
         return [
-            [['user_id','dob','username','first_name','middle_name','last_name','phone','blood_group','residence'],'required'],
-            [['dob','required'],'date'],
-            ['email','required'],
-            ['email','email'],
-            [['username','first_name','email','last_name','middle_name'], 'string'],
-            [['gender', 'blood_group'], 'string','max' => 255],
-            [[ 'blood_group', 'phone','residence'], 'string', 'max' => 255],
-           [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            TimestampBehavior::class,
+           
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function rules()
     {
         return [
-            'id' => 'ID',
-            'username' => 'username',
-            'first_name' => 'first_name',
-            'middle_name' => 'middle_name',
-            'last_name' => 'last_name',
-            'dob' => 'dob',
-            'email' => 'email',
-            'gender' => 'Gender',
-            'blood_group' => 'blood_group',
-            'phone' => 'Phone',
-            'residence' => 'Residence',
-           
+            [['date_of_birth','sub_county','first_name', 'gender','last_name','blood_group','county_of_residence'],'required'],
+            [['date_of_birth'],'date','format'=>'Y-m-d'],
+            ['email','email'],
+            [['sub_county','first_name','email','last_name','middle_name'], 'string'],
+            [['gender', 'blood_group'], 'string','max' => 255],
+            [['blood_group', 'county_of_residence', 'address'], 'string', 'max' => 255],
+            
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
+    }
+
+    
+    public function create()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $profile = new Profile();
+        $profile->user_id = 1;
+        $profile->first_name = $this->first_name;
+        $profile->middle_name = $this->middle_name;
+        $profile->last_name = $this->last_name;
+        $profile->date_of_birth = $this->date_of_birth;
+        $profile->email = $this->email;
+        $profile->gender = $this->gender;
+        $profile->county_of_residence = $this->county_of_residence;
+        $profile->sub_county = $this->sub_county;
+        $profile->address = $this->address;
+
+        return $profile->save();
+ 
     }
 
     /**

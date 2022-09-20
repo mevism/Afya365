@@ -8,7 +8,7 @@ return [
  * @OA\Get(
  *   path="/v1/me",
  *   summary="Get current user",
- *   tags={"Auth"},
+ *   tags={"Authorization"},
  *   @OA\Response(
  *     response=200,
  *     description="Currently logged in user data",

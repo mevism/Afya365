@@ -4,7 +4,7 @@ return[
      * @OA\Get(
      *   path="/v1/about",
      *   summary="About app",
-     *   tags={"Guest"},
+     *   tags={"About"},
      *   @OA\Response(
      *     response=200,
      *     description="Detail Information App",
@@ -21,7 +21,7 @@ return[
      * @OA\Post(
      *     path="/v1/login",
      *     summary="Login to the application",
-     *     tags={"Guest"},
+     *     tags={"Authorization"},
      *     description="Login to get access token",
      *      security={{}},
      *      @OA\RequestBody(
@@ -31,7 +31,7 @@ return[
      *             @OA\Schema(
      *                 type="object",
      *                 @OA\Property(
-     *                    property = "username",
+     *                    property = "mobile",
      *                    type="string"
      *                     ),
      *                  @OA\Property(
@@ -65,7 +65,7 @@ return[
      * @OA\Post(
      *     path="/v1/register",
      *     summary="Register a new user",
-     *     tags={"Guest"},
+     *     tags={"Authentication"},
      *     description="Register a new user",
      *     @OA\Response(
      *         response=200,

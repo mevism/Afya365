@@ -6,7 +6,7 @@ $rules     =   require(__DIR__ . '/rules.php');
 
 $config = [
     'id'         =>    'rest-api',
-    'name'     =>  'Rest API',
+    'name'     =>  'Afya365',
     'basePath'   =>    dirname(__DIR__),
     'bootstrap'  =>    ['log'],
     'timeZone'   =>    'Africa/Nairobi',
@@ -27,6 +27,7 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
+        
         'response'    => [
             /* Enable JSON Output: */
             'class'   =>  'yii\web\Response',
@@ -48,17 +49,21 @@ $config = [
                 }
             },
         ],
+
         'cache'  => [
             'class'  => 'yii\caching\FileCache',
         ],
+
         'user' => [
             'identityClass'   =>  'models\User',
             'enableAutoLogin' =>  false,
             'enableSession'   =>  false,
         ],
+
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@app/mail',
@@ -72,6 +77,7 @@ $config = [
                       'encryption' => 'tls',
                   ],
         ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets'    => [
@@ -81,6 +87,7 @@ $config = [
                 ],
             ],
         ],
+
         'db' => $db,
         
         'urlManager' => [
@@ -104,6 +111,7 @@ $config = [
             ],
         ],
     ],
+
     'params' => $params,
 ];
 

@@ -2,14 +2,16 @@
 
 namespace modules\main\controllers;
 
-use components\Controller;
-use models\Profile;
-use yii\web\NotFoundHttpException;
-use search\ProfileSearch;
 use Yii;
+use models\Profile;
+use search\ProfileSearch;
+use components\Controller;
+use yii\web\NotFoundHttpException;
 
 class ProfileController extends Controller
 {
+
+
     public function actionIndex()
     {
         $search['ProfileSearch'] = Yii::$app->request->queryParams;

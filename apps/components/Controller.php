@@ -14,6 +14,8 @@ class Controller extends \yii\rest\Controller
 {
     use TraitController;
 
+    public $enableCsrfValidation = false;
+
     /**
      * @inheritdoc
      */

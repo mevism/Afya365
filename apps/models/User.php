@@ -3,9 +3,10 @@
 namespace models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
+use components\UserJwt;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\behaviors\TimestampBehavior;
 /**
  * User model
  *
@@ -13,7 +14,7 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $email
+ * @property string $mobile
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
@@ -30,6 +31,10 @@ use yii\web\IdentityInterface;
  *     property="Username",
  *     type="string",
  *   ),
+ *  @OA\Property(
+ *     property="mobile",
+ *     type="string",
+ *   ),
  * 
  *  @OA\Property(
  *     property="password_hash",
@@ -42,20 +47,15 @@ use yii\web\IdentityInterface;
  *   ),
  * 
  *  @OA\Property(
- *     property="email",
- *     type="string",
- *   ),
- * 
- *  @OA\Property(
  *     property="auth_key",
  *     type="string",
  *   ),
  * 
  *  @OA\Property(
- *     property="userStatus",
+ *     property="status",
  *     format="int32",
  *     type="integer",
- *     description="UserStatus",
+ *     description="status",
  *   ),
  * 
  *  @OA\Property(
@@ -79,7 +79,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
-    use \components\UserJwt;
+    use UserJwt;
 
     /**
      * @inheritdoc
@@ -95,7 +95,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
         ];
     }
 
@@ -105,6 +105,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
@@ -123,7 +124,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function fields()
     {
-        return ['username', 'email', 'token', 'updated_at', 'created_at'];
+        return ['user_id'=>function(){
+            return $this->id;
+        }, 'phone number'=>function(){ 
+            return $this->mobile; }, 'token'];
     }
 
     /**
@@ -135,10 +139,17 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::find()
-            ->select('id, username, email, password_hash, auth_key, created_at, updated_at')
+            ->select('id, username, mobile, password_hash, auth_key, created_at, updated_at')
             ->where(['status' => self::STATUS_ACTIVE])
-            ->andWhere(['OR', ['username' => $username], ['email' => $username]])
+            ->andWhere(['OR', ['username' => $username], ['mobile' => $username]])
             ->one();
+    }
+
+    public static function findByMobile($mobile)
+    {
+        return static::findOne([
+            'mobile' => $mobile
+        ]);
     }
 
     /**

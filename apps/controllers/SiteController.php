@@ -28,7 +28,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return "<h2 style='text-align: center;'>
-        Hello this is Mevis. </h2>";
+        Welcome to Afya365. </h2>";
     }
 
     public function actionResource()

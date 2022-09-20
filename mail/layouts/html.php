@@ -44,29 +44,20 @@ use yii\helpers\Html;
             </tr>
             <tr>
                 <td  style=" background:#69b899; padding: 20px 20px 20px 20px; color: #ffffff; font-family: Arial, sans-serif; font-size: 36px; font-weight: bold;">
-                    <img src="img/proui_logo.png" alt="Izzo Computers"   style="display:block;width:152;height:152;" />
+                    <img src="/img/proui_logo.png" alt="CrackIT Technology"   style="display:block;width:152;height:152;" />
                 </td>
             </tr>
             <tr>
                 <td class="justify-content-center" style=" background-color:#ffffff; padding: 40px 20px 40px 20px; color: #555555; font-family: Arial, sans-serif; font-size: 20px; line-height: 30px; border-bottom: 1px solid #f6f6f6;">
-                    <b>Welcome ...</b><br/>
                     <?= $content ?>
                 </td>
             </tr>
-            <!-- <tr>
-                <td class="justify-content-center" style=" background-color:#f9f9f9; padding: 30px 20px 30px 20px; font-family: Arial, sans-serif;">
-                    <table  style="background-color: #69b899; border:0px" cellspacing="0" cellpadding="0" class="buttonwrapper">
-                        <tr>
-                            <td  height="50" style=" padding: 0 25px 0 25px; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold;" class="button">
-                                <a href="#" style="text-align:center; color: #ffffff; text-align: center; text-decoration: none;">Activate Account</a>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr> -->
+            <tr>
+            
+            </tr>
             <tr>
                 <td class="justify-content-center"  style=" background-color:#dddddd; padding: 15px 10px 15px 10px; color: #555555; font-family: Arial, sans-serif; font-size: 12px; line-height: 18px;">
-                    <b>Izzo Computers</b><br/>Moi Avenue &bull; Mombasa, Kenya
+                    <b>CrackIT Technology</b><br/>Moi Avenue &bull; Mombasa, Kenya
                 </td>
             </tr>
             <tr>
@@ -74,7 +65,7 @@ use yii\helpers\Html;
                     <table  style="border: 0px; width:100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="justify-content-center" width="100%" style="color: #999999; font-family: Arial, sans-serif; font-size: 12px;">
-                                2022 &copy; <a href="" style="color: #69b899;">Mevis</a>
+                                2022 &copy; <a href="" style="color: #69b899;">CrackIT</a>
                             </td>
                         </tr>
                     </table>

@@ -77,3 +77,4 @@ class GuestController extends Controller
         return $this->apiValidated($model->errors);
     }
 }
+

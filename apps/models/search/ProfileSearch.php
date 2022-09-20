@@ -18,7 +18,7 @@ class ProfileSearch extends Profile
     {
         return [
             [['id', 'user_id'], 'integer'],
-            [['username','first_name','middle_name','last_name','dob', 'email','gender', 'blood_group', 'phone', 'residence'], 'safe'],
+            [['first_name','middle_name','last_name','date_of_birth', 'email','gender', 'blood_group', 'sub_county', 'county_of_residence','address'], 'safe'],
         ];
     }
 
@@ -67,17 +67,16 @@ class ProfileSearch extends Profile
             'user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'username', $this->username])
-            ->orFilterWhere(['like', 'first_name', $this->first_name])
+        $query->andFilterWhere(['like', 'first_name', $this->first_name])
             ->orFilterWhere(['like', 'middle_name', $this->middle_name])
             ->orFilterWhere(['like', 'last_name', $this->last_name])
-            ->orFilterWhere(['like', 'dob', $this->dob])
+            ->orFilterWhere(['like', 'date_of_birth', $this->date_of_birth])
             ->orFilterWhere(['like', 'email', $this->email])
             ->orFilterWhere(['like', 'gender', $this->gender])
             ->orFilterWhere(['like', 'blood_group', $this->blood_group])
-            ->orFilterWhere(['like', 'phone', $this->phone])
-            ->orFilterWhere(['like', 'residence', $this->residence]);
-
+            ->orFilterWhere(['like', 'county_of_residence', $this->county_of_residence])
+            ->orFilterWhere(['like', 'sub_county', $this->sub_county])
+            ->orFilterWhere(['like', 'address', $this->address]);
         return $dataProvider;
     }
 }

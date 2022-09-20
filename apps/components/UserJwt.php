@@ -93,7 +93,7 @@ trait UserJwt
     }
 
     /**
-     * Getter for encryption algorytm used in JWT generation and decoding
+     * Getter for encryption algorythm used in JWT generation and decoding
      * Override this method to set up other algorytm.
      * @return string needed algorytm
      */

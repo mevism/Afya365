@@ -11,7 +11,7 @@ use models\User;
  *   schema="Login",
  *   type="object",
  *   title="Login",
- *   required={"username", "email", "updated_at", "created_at"},
+ *   required={"username", "mobile", "updated_at", "created_at"},
  *  
  * 
  * @OA\Property(
@@ -20,7 +20,7 @@ use models\User;
  * ),
  * 
  *    @OA\Property(
- *     property="email",
+ *     property="mobile",
  *     type="string",
  *  ),
  * 
@@ -42,7 +42,7 @@ use models\User;
  * @OA\Schema(
  *   schema="CurrentUser",
  *   type="object",
- *   required={"username", "email", "updated_at", "created_at"},
+ *   required={"username", "mobile", "updated_at", "created_at"},
  *   allOf={
  *     @OA\Schema(ref="#/components/schemas/Login")
  *   }
@@ -52,7 +52,8 @@ class LoginForm extends Model
 {  
     public $username;
     public $password;
-
+    public $mobile;
+    
     private $_user;
 
     /**
@@ -61,7 +62,7 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            [['username', 'password'], 'required'],
+            [['mobile', 'password'], 'required'],
             ['password', 'validatePassword'],
         ];
     }
@@ -77,6 +78,7 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
+            
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
@@ -107,7 +109,7 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByMobile($this->mobile);
         }
         return $this->_user;
     }
