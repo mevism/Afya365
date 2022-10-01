@@ -16,7 +16,7 @@ class m220915_154504_create_token_table extends Migration
             'access_token_id' => $this->primaryKey(),
             'user_id'  =>  $this->integer()->notNull(),
             'token'  =>  $this->integer()->notNull(),
-            'type'  =>  $this->string()->notNull(),
+            'type'  =>  $this->string()->notNull()->defaultValue('otp'),
             'status'  =>  $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

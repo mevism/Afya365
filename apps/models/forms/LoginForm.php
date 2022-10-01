@@ -52,17 +52,16 @@ class LoginForm extends Model
 {  
     public $username;
     public $password;
-    public $mobile;
     
     private $_user;
 
-    /**
+    /** 
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['mobile', 'password'], 'required'],
+            [['username', 'password'], 'required'],
             ['password', 'validatePassword'],
         ];
     }
@@ -79,7 +78,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
@@ -109,7 +108,7 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByMobile($this->mobile);
+            $this->_user = User::findByUsername($this->username);
         }
         return $this->_user;
     }

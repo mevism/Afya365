@@ -3,7 +3,9 @@
 return [
     'adminEmail' => 'mevismales@gmail.com',
     'supportEmail' => 'noreply.resetaccess@gmail.com',
-    'passwordResetTokenExpire' => 300,
+    'passwordResetTokenExpire' => 120,
+    'otpTokenExpire'  =>  120,
+
 
     /* detail app */
     'name' => 'Afya365',

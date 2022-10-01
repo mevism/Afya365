@@ -1,5 +1,7 @@
 <?php
+
 return[
+
     /**
      * @OA\Get(
      *   path="/v1/about",
@@ -31,7 +33,7 @@ return[
      *             @OA\Schema(
      *                 type="object",
      *                 @OA\Property(
-     *                    property = "mobile",
+     *                    property = "username",
      *                    type="string"
      *                     ),
      *                  @OA\Property(
@@ -84,4 +86,39 @@ return[
      * )
      */
     'POST register' => 'guest/register',
+
+
+    /**
+     * @OA\Post(
+     *     path="/v1/otp",
+     *     summary="Verify your Phone Number",
+     *     tags={"Authentication"},
+     *     description="Provide the code sent to your mobile number",
+     *      security={{}},
+     *      @OA\RequestBody(
+     *         description="successful operation",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(
+     *                    property = "token",
+     *                    type="string"
+     *                     ),
+     *             )
+     *         ),
+     *         
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="dataPayload", type="object",ref="#/components/schemas/Otp"))
+     *     )
+     *     ),      
+     *   )
+     * )
+     */
+    'POST verify' => 'guest/verify',
+
      ];

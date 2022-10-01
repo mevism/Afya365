@@ -74,10 +74,12 @@ use yii\behaviors\TimestampBehavior;
 
 class User extends ActiveRecord implements IdentityInterface
 {
+    //const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 10;
+
     public $token;
 
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
 
     use UserJwt;
 
@@ -107,7 +109,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE]],
         ];
     }
 
@@ -122,12 +124,17 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+    // public function fields()
+    // {
+    //     return ['user_id'=>function(){
+    //         return $this->id;
+    //     }, 'phone number'=>function(){ 
+    //         return $this->mobile; }, 'token'];
+    // }
+
     public function fields()
     {
-        return ['user_id'=>function(){
-            return $this->id;
-        }, 'phone number'=>function(){ 
-            return $this->mobile; }, 'token'];
+        return ['username','mobile', 'token', 'updated_at', 'created_at'];
     }
 
     /**
@@ -140,24 +147,19 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->select('id, username, mobile, password_hash, auth_key, created_at, updated_at')
-            ->where(['status' => self::STATUS_ACTIVE])
+            // ->where(['status' => self::STATUS_ACTIVE])
             ->andWhere(['OR', ['username' => $username], ['mobile' => $username]])
             ->one();
     }
 
-    public static function findByMobile($mobile)
-    {
-        return static::findOne([
-            'mobile' => $mobile
-        ]);
-    }
+
 
     /**
      * Finds user by password reset token
      *
      * @param string $token password reset token
      * @return static|null
-     */
+     */    
     public static function findByPasswordResetToken($token)
     {
         if (!static::isPasswordResetTokenValid($token)) {
@@ -168,6 +170,7 @@ class User extends ActiveRecord implements IdentityInterface
             'status' => self::STATUS_ACTIVE,
         ]);
     }
+ 
 
     /**
      * Finds out if password reset token is valid

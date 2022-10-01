@@ -11,7 +11,7 @@ use yii\base\Model;
  *   schema="NewUser",
  *   title="NewUser",
  *   type="object",
- *   required={ "username", "mobile", "password"},
+ *   required={ "username", "mobile", "confirm_mobile", "password","confirm_Password"},
  *
  *  @OA\Property(
  *     property="username",
@@ -21,9 +21,17 @@ use yii\base\Model;
  *     property="mobile",
  *     type="string",
  * ),
+ * @OA\Property(
+ *     property="confirm_mobile",
+ *     type="string",
+ * ),
  * 
  * @OA\Property(
  *     property="password",
+ *     type="string",
+ * ),
+ * @OA\Property(
+ *     property="confirm_password",
  *     type="string",
  * ),
  *)
@@ -33,6 +41,8 @@ class RegisterForm extends Model
     public $username;
     public $mobile;
     public $password;
+    public $confirm_password;
+    public $confirm_mobile;
 
     /**
      * @inheritdoc
@@ -41,12 +51,18 @@ class RegisterForm extends Model
     {
         return [
             [['username', 'mobile'], 'trim'],
-            [['username','mobile'], 'required'],
+            ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'string', 'min' => 4, 'max' => 255],
+
+            [['mobile',  'confirm_mobile'], 'required'],
             ['mobile', 'string', 'min'=>10, 'max'=>13],
-            ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            //['mobile',  'match', 'pattern' => '/^\+?[1-9]\d{1,14}$/'],
+            ['confirm_mobile', 'compare', 'compareAttribute'=>'mobile', 'message'=>"Mobile number don't match" ],
+            
+            [['password',  'confirm_password'], 'required'],
+            [['password','confirm_password'], 'string', 'min' => 6],
+            ['confirm_password', 'compare', 'compareAttribute'=>'password', 'message'=>"Passwords don't match" ]
         ];
     }
 
@@ -67,6 +83,6 @@ class RegisterForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
-        return $user->save();
+        return $user->save() ? $user : false;
     }
 }

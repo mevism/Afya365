@@ -2,11 +2,14 @@
 
 namespace modules\main\controllers;
 
-use components\Controller;
-use forms\RegisterForm;
-use yii\filters\AccessControl;
-use forms\LoginForm;
 use Yii;
+use models\Otp;
+use models\Verify;
+use forms\LoginForm;
+use forms\RegisterForm;
+use components\Controller;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 class GuestController extends Controller
 {
@@ -14,24 +17,36 @@ class GuestController extends Controller
      * @inheritdoc
      */
     public function behaviors()
+
     {
         return [
             'access' => [
                 'class' => AccessControl::class,
+                'only' => ['logout','verify','login'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'register'],
+                        'actions' => ['logout'],
                         'allow' => true,
+                        'roles' => ['@']
                     ],
-
-                ],
-            ]
+                    [
+                        'actions' => ['verify','login'],
+                        'allow' => true,
+                        'roles' => ['?']
+                    ]]
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'logout' => ['post'],
+                    'verify' => ['post']
+                ]]
         ];
     }
-
    
     public function actionIndex()
     {
+        
         $params = Yii::$app->params;
         return [
             'name' => $params['name'],
@@ -69,12 +84,30 @@ class GuestController extends Controller
         $dataRequest['RegisterForm'] = Yii::$app->request->getBodyParams();
         $model = new RegisterForm();
         if ($model->load($dataRequest)) {
-            if ($user = $model->register()) {
-                return $this->apiGenerated($user);
+            if (($user = $model->register())) {
+                
+                return Otp::sendToken($user->id) ? $this->apiGenerated($user) : false ;
             }
         }
-
         return $this->apiValidated($model->errors);
+    }
+
+    /**
+     * 
+     * verify token
+     */
+
+    public function actionVerify(){
+
+        $dataRequest['Verify'] = Yii::$app->request->post();
+        $model = new Verify();
+        if ($model->load($dataRequest)){
+            if (($result = $model->verify())) {
+                return $this->apiSuccess($result);
+            }
+        } 
+        return $this->apiValidated($model->errors);
+
     }
 }
 
