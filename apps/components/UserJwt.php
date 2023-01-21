@@ -3,7 +3,6 @@
 namespace components;
 
 use Firebase\JWT\JWT;
-
 use Yii;
 use yii\web\Request as WebRequest;
 
@@ -14,7 +13,6 @@ use yii\web\Request as WebRequest;
  */
 trait UserJwt
 {
-
     /**
      * Store JWT token header items.
      * @var array
@@ -129,6 +127,7 @@ trait UserJwt
             $hostInfo = $request->hostInfo;
         }
 
+
         // Merge token with presets not to miss any params in custom
         // configuration
         $token = array_merge([
@@ -136,6 +135,13 @@ trait UserJwt
             'aud' => $hostInfo,
             'iat' => $currentTime,
             'nbf' => $currentTime,
+            'usr' => [
+                'id' => $this->id,
+                'username' => $this->username,
+                'mobile_verified' => $this->mobile_verify,
+                'profile_updated' => $this->is_patient_profile_updated,
+                'patient profile' => is_null($this->patient($this->id)) ? null : $this->patient($this->id)
+            ],
             'exp' => static::getExpireIn()
         ], static::getHeaderToken());
 

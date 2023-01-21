@@ -5,13 +5,12 @@ return [
     'supportEmail' => 'noreply.resetaccess@gmail.com',
     'passwordResetTokenExpire' => 120,
     'otpTokenExpire'  =>  120,
-
-
+    'user.passwordMinLength'=>8,
     /* detail app */
-    'name' => 'Afya365',
-    'description' => 'Welcome to Afya365',
+    'name' => 'Doctor Appointment',
+    'description' => 'Welcome ',
     'version' => ' 0.0.1',
-    'createdBy' => 'Mevis Malesi',
+    'createdBy' => 'Mevis',
 
     /* params for jwt */
     'secretKey' => 'restApiToken',

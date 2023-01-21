@@ -25,6 +25,8 @@ class Controller extends \yii\rest\Controller
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::class,
         ];
+        $behaviors['authenticator']['except'] = ['logout', 'send-token', 'login','requestpasswordreset',
+            'verifynumber','resetpassword','register', 'verify','adminrequestpasswordreset','adminverifynumber','doctorlogin','adminresetpassword','appointment'];
         return $behaviors;
     }
 
@@ -64,7 +66,7 @@ class Controller extends \yii\rest\Controller
 
         return [
             'statusCode' => 200,
-            'message' => $message ? $message : 'successful operation',
+            'message' => $message ? $message : 'successful',
             'data' => $data,
             'total' => $total
         ];
@@ -79,7 +81,7 @@ class Controller extends \yii\rest\Controller
         Yii::$app->response->statusCode = 202;
         return [
             'statusCode' => 202,
-            'message' => $message ? $message : 'Successful operation',
+            'message' => $message ? $message : 'Successful',
             'data' => $data
         ];
     }

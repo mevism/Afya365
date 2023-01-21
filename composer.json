@@ -19,10 +19,11 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "zircote/swagger-php": "^3.2",
         "firebase/php-jwt": "^5.0",
-        "vlucas/phpdotenv": "^2.4",
+        "vlucas/phpdotenv": "^5.5",
         "doctrine/annotations": "^1.13",
         "twilio/sdk": "^6.42",
-        "africastalking/africastalking": "^3.0"
+        "africastalking/africastalking": "^3.0",
+        "borales/yii2-phone-input": "*"
        
 
     },

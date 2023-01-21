@@ -4,6 +4,7 @@ $db        =   require(__DIR__ . '/db.php');
 $aliases   =   require(__DIR__ . '/aliases.php');
 $rules     =   require(__DIR__ . '/rules.php');
 
+
 $config = [
     'id'         =>    'rest-api',
     'name'     =>  'Afya365',
@@ -26,6 +27,11 @@ $config = [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            // uncomment if you want to cache RBAC items hierarchy
+            // 'cache' => 'cache',
         ],
         
         'response'    => [
@@ -56,7 +62,7 @@ $config = [
 
         'user' => [
             'identityClass'   =>  'models\User',
-            'enableAutoLogin' =>  false,
+            'enableAutoLogin' =>  true,
             'enableSession'   =>  false,
         ],
 

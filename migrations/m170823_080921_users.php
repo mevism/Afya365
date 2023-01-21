@@ -16,7 +16,7 @@ class m170823_080921_users extends Migration
             'username' => $this->string()->notNull()->unique(),
             'mobile' => $this->string()->notNull()->unique(),
             'mobile_verify' => $this->tinyInteger()->defaultValue(0),
-            'is_profile_updated' => $this->tinyInteger()->defaultValue(0),
+            'is_patient_profile_updated' => $this->tinyInteger()->defaultValue(0),
             'auth_key' => $this->string(32)->notNull(),
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),

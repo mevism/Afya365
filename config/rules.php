@@ -1,6 +1,5 @@
 <?php
 
-
 $main = "../apps/routes/main";
 
 $routes = [];
@@ -10,3 +9,4 @@ foreach (glob("{$main}/*.php") as $filename) {
 }
 
 return $routes;
+

@@ -1,12 +1,14 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require(__DIR__ . '/../vendor/autoload.php');
 
 // load .env
 $env = __DIR__ . '/../';
-(new Dotenv\Dotenv($env))->load();
+// (new Dotenv\Dotenv($env))->load();
+$dotenv = Dotenv\Dotenv::createImmutable($env);
+$dotenv->safeLoad();
 
 if(getenv('APP_ENV') !== 'production') {
     defined('YII_DEBUG') or define('YII_DEBUG', true);

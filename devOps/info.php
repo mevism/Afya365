@@ -2,11 +2,11 @@
  
 /**
  * @OA\Info(
- *     description="Afya365.",  
+ *     description="Doctor's Appointment",  
  *     version="1.0.0",
- *     title="Welcome to our services",
+ *     title="Welcome ",
  *     @OA\Contact(
- *         name="Afya365",
+ *         name="Doctor's Appointment",
  *         email="info@afya.ac.ke"
  *     ),
  *     @OA\License(

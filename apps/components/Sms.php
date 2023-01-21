@@ -5,9 +5,9 @@ namespace components;
 use AfricasTalking\SDK\AfricasTalking;
 class Sms
 {
-    const apiKey   = '39d6ee3bed35128162d45e5b0e68275116de838ee0d657546de71758a82a2c01';
-    const username = 'cicsystems';
-    const sender   = '';
+    const apiKey   = 'b698805ecd0bab21b89e877aef89fa0464aafeb210e755d1d78f51eed1b2fd1c';
+    const username = 'TUM';
+    const sender   = 'TUM';
 
     public static function sendOtp($data)
     {

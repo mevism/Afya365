@@ -1,8 +1,6 @@
 <?php
 
-
 return [
-
 
 /**
  * @OA\Get(
@@ -25,5 +23,6 @@ return [
  *   )
  * )
  */
-    'GET me' => 'auth/me'
+    'GET me' => 'auth/me',
+
 ];

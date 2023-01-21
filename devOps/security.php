@@ -9,6 +9,7 @@ return[
  *   bearerFormat="JWT",
  * )
  */
+
 /**
  * @OA\OpenApi(
  *   security={

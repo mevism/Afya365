@@ -3,7 +3,9 @@
 namespace models;
 
 use Yii;
+use userModels\Otp;
 use components\UserJwt;
+use userModels\Patient;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use yii\behaviors\TimestampBehavior;
@@ -75,11 +77,11 @@ use yii\behaviors\TimestampBehavior;
 class User extends ActiveRecord implements IdentityInterface
 {
     //const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 0;
+    const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
     public $token;
-
+    public $password;
 
     use UserJwt;
 
@@ -124,17 +126,12 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    // public function fields()
-    // {
-    //     return ['user_id'=>function(){
-    //         return $this->id;
-    //     }, 'phone number'=>function(){ 
-    //         return $this->mobile; }, 'token'];
-    // }
-
     public function fields()
     {
-        return ['username','mobile', 'token', 'updated_at', 'created_at'];
+        return ['user_id'=>function(){
+            return $this->id;
+        }, 'phone number'=>function(){ 
+            return $this->mobile; }, 'token'];
     }
 
     /**
@@ -146,13 +143,18 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::find()
-            ->select('id, username, mobile, password_hash, auth_key, created_at, updated_at')
-            // ->where(['status' => self::STATUS_ACTIVE])
+            ->select('id, username, mobile, mobile_verify, is_patient_profile_updated, password_hash, auth_key, created_at, updated_at')
             ->andWhere(['OR', ['username' => $username], ['mobile' => $username]])
             ->one();
     }
 
-
+    public static function findByVerificationToken($token)
+    {
+        return static::findOne([
+            'verification_token' => $token,
+            'status' => self::STATUS_INACTIVE
+        ]);
+    }
 
     /**
      * Finds user by password reset token
@@ -259,8 +261,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        
     }
 
+ 
     /**
      * Generates "remember me" authentication key
      */
@@ -272,9 +276,10 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Generates new password reset token
      */
-    public function generatePasswordResetToken()
+    public function generatePasswordResetToken($id)
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        // $this->password_reset_token = Otp::sendToken($id, true);
     }
 
     /**
@@ -283,5 +288,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function patient($id)
+    {
+        return  Patient::find()
+        ->select('id, first_name,  middle_name, last_name, email, date_of_birth, gender, blood_group, county_of_residence, sub_county, address,created_at')
+        ->where(['user_id' => $id])->asArray()
+        ->one();
+        
     }
 }
