@@ -7,12 +7,14 @@ use models\User;
 use userModels\Otp;
 use forms\LoginForm;
 use forms\RegisterForm;
+use userModels\Patient;
 use userModels\ResendOtp;
 use components\Controller;
 use userModels\VerifyNumber;
 use userModels\PasswordReset;
 use userModels\ChangePassword;
 use userModels\PasswordHistory;
+use yii\web\NotFoundHttpException;
 use yii\web\BadRequestHttpException;
 use userModels\PasswordResetRequestForm;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
@@ -40,7 +42,8 @@ class GuestController extends Controller
     public function actionLogin()
     {
         $dataRequest['LoginForm'] = Yii::$app->request->post();
-        $model = new LoginForm();        
+        $model = new LoginForm();    
+            
         if ($model->load($dataRequest) && ($result = $model->login())) {            
             return $this->apiSuccess($result, "You have successfully logged in.");
         }
@@ -56,6 +59,7 @@ class GuestController extends Controller
     {
         $dataRequest['RegisterForm'] = Yii::$app->request->getBodyParams();
         $model = new RegisterForm();
+
         if ($model->load($dataRequest)) {
             if (($user = $model->register())) {
                 return Otp::sendToken($user->id) ? $this->apiGenerated($user, "Thank you for registration. Please check your phone a code has been sent to you to verify your mobile number.") : false;
@@ -87,6 +91,7 @@ class GuestController extends Controller
     {
         $dataRequest['ResendOtp'] = Yii::$app->request->getBodyParams();      
         $model = new ResendOtp();
+
         if ($model->load($dataRequest)) {
             if($model->validate()){
                 if (($user = Otp::sendToken($model->user_id))) {
@@ -115,52 +120,22 @@ class GuestController extends Controller
         $dataRequest['PasswordResetRequestForm'] = Yii::$app->request->getBodyParams(); 
         $model = new PasswordResetRequestForm();
 
-        $userRequest = Yii::$app->request->getBodyParams();
-        $x = $userRequest['mobile'];
-        $number =  User::findOne(['mobile' => '+254' . substr($x, -9)]);
-        // return $number;
-        if ($model->load($dataRequest) && ($model->validate($model->mobile = $number))){
+        if ($model->load($dataRequest) && ($model->validate())){
             if($user = $model->passwordResetRequest()){
-                return Otp::sendToken($user->id) ? $this->apiGenerated($user, "Check your phone a code has been sent to verify this mobile number.") : false;
+                return Otp::sendToken($user->id) ? $this->apiGenerated($user, "Use a code that has been sent to your phone to verify your phone number.") : false;
             }
-            return $this->apiValidated($model->errors);
         }
         return $this->apiValidated($model->errors);
     }
 
     public function actionResetpassword(){
         $dataRequest['PasswordReset'] = Yii::$app->request->getBodyParams();   
-        $userRequest = Yii::$app->request->getBodyParams();  
         $model = new PasswordReset();
-        $user_id = $userRequest['user_id'];
-        // return $user_id;
-              
-        if ($model->load($dataRequest)  && $model->validate() ){     
-            $user =  User::findOne(['id'=>$user_id]);
-            if ($user  !== null) {
-                $user = PasswordHistory::findOne(['user_id' => $user->getId(), 'previous_password' => md5($model->password)]);
-                if (!is_null($user)) {
-                    return $this->apiValidated($model->errors,'Choose a password you have not used before');
-                }
-            }else{
-                return $this->apiValidated($model->errors,'user does not exist');
-            }
-            $otp =  Otp::findOne(['user_id'=>$user_id,'type'=>"user password reset", 'status'=>1]);
-            if($otp){
-                $user =  User::findOne(['id'=>$user_id]);
-                $user->password_hash = Yii::$app->security->generatePasswordHash($model->password);
-                if($user->save(false)){
-                    $passwordHistory = new PasswordHistory;
-                    $passwordHistory->user_id = $user->getId();
-                    $passwordHistory->previous_password = md5($model->password);
-                    $passwordHistory->save(false);
-                    return $this->apiGenerated($user, "password successfully reset");
-                }
-                return false;
-                
-            }
-                 
-            } 
+
+        if ($model->load($dataRequest)  && ($model->validate() && $user = $model->resetPassword())){                           
+            return $this->apiGenerated($user, "password successfully reset");
+        }                      
+            
             return $this->apiValidated($model->errors);      
     }
 
@@ -168,6 +143,7 @@ class GuestController extends Controller
     {
         $dataRequest['ChangePassword'] = Yii::$app->request->getBodyParams(); 
         $model = new ChangePassword();
+
             if ($model->load($dataRequest) &&  ($model->validate() && $model->change())){        
                 return $this->apiGenerated($model,  "You have successfully changed your password.");                
             } 
@@ -182,10 +158,25 @@ class GuestController extends Controller
     {
         $dataRequest['VerifyNumber'] = Yii::$app->request->getBodyParams();
         $model = new VerifyNumber();
+
         if ($model->load($dataRequest) && ($model->validate() && $otp = $model->verifyNumber())) {
             return $this->apiGenerated($otp);
         }
         return $this->apiValidated($model->errors);
     }
     
+
+    public function actionView($id)
+    {
+        return $this->apiSuccess($this->findModel($id));
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Patient::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('This record does not exist');
+        }
+    }
 }

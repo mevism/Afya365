@@ -135,7 +135,7 @@ return [
      */
     'POST changemobilenumber' => 'admin/changemobilenumber',
 
-      /**
+    /**
      * @OA\Post(
      *     path="/v1/adminrequestpasswordreset",
      *     summary="Admin Request Password Reset",
@@ -389,16 +389,16 @@ return [
      *     @OA\RequestBody(
      *     description="Create a Doctor Schedule",
      *     required=true,
-     *     @OA\JsonContent(ref="#/components/schemas/CreateDoctorSchedule"),
+     *     @OA\JsonContent(ref="#/components/schemas/CreateSchedule"),
      *     @OA\MediaType(
      *         mediaType="application/xml",
-     *         @OA\Schema(ref="#/components/schemas/CreateDoctorSchedule")
+     *         @OA\Schema(ref="#/components/schemas/CreateSchedule")
      *     )
      * ),
      *     @OA\Response(
      *         response=201,
      *         description="successful",
-     *         @OA\JsonContent(ref="#/components/schemas/CreateDoctorSchedule"),
+     *         @OA\JsonContent(ref="#/components/schemas/CreateSchedule"),
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -408,5 +408,5 @@ return [
      *     
      * )
      */
-    'POST doctorschedule' => 'admin/schedule',
+    'POST doctorschedule' => 'admin/doctorschedule',
 ];

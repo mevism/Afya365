@@ -102,8 +102,8 @@ class VerifyNumber extends ActiveRecord
     public function verifyNumber()
     {
         $model = self::findOne(['user_id' => $this->user_id, 'OTP'  =>  $this->OTP]); 
-        $x =  "user password reset";
-        $model->type = $x;          
+        $actor =  "User password reset";
+        $model->type = $actor;          
         $model->status = true;
         if($model->save(false)){
             

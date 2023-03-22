@@ -100,9 +100,9 @@ class RegisterForm extends Model
                 $passwordHistory->previous_password = md5($this->password);
                 $passwordHistory->save(false);
                 return $passwordHistory->save() ? $user : false;
+            }
+            return false;
         }
         return false;
-    }
-    return false;
     }
 }

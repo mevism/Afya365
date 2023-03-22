@@ -14,24 +14,14 @@ class m221110_192854_create_doctorschedule_table extends Migration
     {
         $this->createTable('{{%doctorschedule}}', [
             'id' => $this->primaryKey(),
-            'doctor_id' => $this->integer(),
-            'schedule_day' => "enum('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday')",
-            'schedule_date'=>$this->datetime(),
-            'schedule_start' => $this->string(),
-            'schedule_end' => $this->string(),
-            'average_consulting_time' => $this->string(),
-            'status' => $this->integer(),
+            'staff_number' => $this->string()->notNull(),
+            'schedule_date'=>$this->datetime()->notNull(),
+            'schedule_start' => $this->string()->notNull(),
+            'schedule_end' => $this->string()->notNull(),
+            'status' => $this->integer()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ]);
-        $this->addForeignKey(
-            '{{%fk-doctorschedule-doctor_id}}',
-            '{{%doctorschedule}}',
-            'doctor_id',
-            '{{%doctor}}',
-            'id',
-            'CASCADE'
-        );
     }
 
     /**
@@ -40,9 +30,6 @@ class m221110_192854_create_doctorschedule_table extends Migration
     public function safeDown()
     {
         $this->dropTable('{{%doctorschedule}}');
-        $this->dropForeignKey(
-            '{{%fk-doctorschedule-doctor_id}}',
-            '{{%doctorschedule}}'
-        );
+       
     }
 }

@@ -19,6 +19,7 @@ class Controller extends \yii\rest\Controller
     /**
      * @inheritdoc
      */
+ 
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -26,7 +27,7 @@ class Controller extends \yii\rest\Controller
             'class' => HttpBearerAuth::class,
         ];
         $behaviors['authenticator']['except'] = ['logout', 'send-token', 'login','requestpasswordreset',
-            'verifynumber','resetpassword','register', 'verify','adminrequestpasswordreset','adminverifynumber','doctorlogin','adminresetpassword','appointment'];
+            'verifynumber','resetpassword','register', 'verify','adminrequestpasswordreset','adminverifynumber','doctorlogin','adminresetpassword','appointment','doctorrequestpasswordreset','doctorresetpassword','doctorverifynumber'];
         return $behaviors;
     }
 

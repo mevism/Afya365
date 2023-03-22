@@ -19,11 +19,11 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "zircote/swagger-php": "^3.2",
         "firebase/php-jwt": "^5.0",
-        "vlucas/phpdotenv": "^5.5",
         "doctrine/annotations": "^1.13",
         "twilio/sdk": "^6.42",
         "africastalking/africastalking": "^3.0",
-        "borales/yii2-phone-input": "*"
+        "borales/yii2-phone-input": "*",
+        "vlucas/phpdotenv": "^5.5"
        
 
     },
@@ -36,7 +36,6 @@
         "codeception/specify": "~0.4.6",
         "symfony/browser-kit": ">=2.7 <=4.2.4",
         "codeception/module-filesystem": "^1.0.0",
-        "codeception/module-yii2": "^1.0.0",
         "codeception/module-asserts": "^1.0.0"
     },
     "config": {

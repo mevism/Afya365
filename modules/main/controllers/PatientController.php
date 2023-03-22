@@ -58,12 +58,23 @@ class PatientController extends Controller
     {
         return $this->apiSuccess($this->findModel($id));
     }
+
     public function actionAppointment()
     {
         $dataRequest['Appointment'] = Yii::$app->request->getBodyParams();
         $model = new Appointment();
-        if($model->load($dataRequest) && $model->save()) {
-            return $this->apiGenerated($model);
+
+      /*   if($model->load($dataRequest) ){
+
+        return $model->appointment();
+        } */
+        if($model->load($dataRequest)) {
+            $model->appointment_number  =  $model->code();
+            if($model->validate()){
+                $model->save();
+                return $this->apiGenerated($model);
+            }
+            
         }
 
         return $this->apiValidated($model->errors);

@@ -4,12 +4,12 @@ namespace adminSearch;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use adminModels\Doctor;
+use doctorModels\DoctorDetails;
 
 /**
  * DoctorSearch represents the model behind the search form of `adminModels\Doctor`.
  */
-class DoctorSearch extends Doctor
+class DoctorSearch extends DoctorDetails
 {
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ class DoctorSearch extends Doctor
      */
     public function search($params)
     {
-        $query = Doctor::find();
+        $query = DoctorDetails::find();
 
         // add conditions that should always apply here
 

@@ -2,6 +2,8 @@
 
 namespace userModels;
 
+use doctorModels\DoctorDetails;
+use doctorModels\Doctorschedule;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 /**
@@ -28,27 +30,19 @@ use yii\behaviors\TimestampBehavior;
  *   schema="CreateAppointment",
  *   title="Appointment",
  *   type="object",
- *   required={"appointment_number","reason_for_appointment","appointment_time","doctor_comments ","patient_come_into_hospital"},
+ *   required={"reason_for_appointment","appointment_time"},
  * 
  * @OA\Property(
- *    property="appointment_number",
+ *    property="patient_id",
  *    type="string",
  *   ),
- * @OA\Property(
+ *  * @OA\Property(
  *    property="reason_for_appointment",
  *    type="string",
  *   ),
  * 
  * @OA\Property(
  *    property="appointment_time",
- *    type="string",
- *   ),
- *  @OA\Property(
- *    property="doctor_comments ",
- *    type="string",
- *   ),
- *  @OA\Property(
- *    property="patient_come_into_hospital",
  *    type="string",
  *   ),
  * )
@@ -58,7 +52,7 @@ use yii\behaviors\TimestampBehavior;
  * @OA\Schema(
  *   schema="UpdateAppointment",
  *   type="object",
- *   required={"appointment_number","reason_for_appointment","appointment_time","doctor_comments ","patient_come_into_hospital"},
+ *   required={"patient_id","reason_for_appointment","appointment_time"},
  *   allOf={
  *       @OA\Schema(ref="#/components/schemas/CreateAppointment"),
  *   }
@@ -69,7 +63,7 @@ use yii\behaviors\TimestampBehavior;
  * @OA\Schema(
  *   schema="Appointment",
  *   type="object",
- *   required={"appointment_number","reason_for_appointment","appointment_time","doctor_comments ","patient_come_into_hospital"},
+ *   required={"patient_id","reason_for_appointment","appointment_time"},
  *   allOf={
  *       @OA\Schema(ref="#/components/schemas/CreateAppointment"),
  *       @OA\Schema(
@@ -83,7 +77,7 @@ use yii\behaviors\TimestampBehavior;
 /**
  * @OA\RequestBody(
  *     request="Appointment",
- *     description="Appointment information .",
+ *     description="Appointment information.",
  *     required=true,
  *     @OA\JsonContent(ref="#/components/schemas/CreateAppointment"),
  *     @OA\MediaType(
@@ -104,8 +98,7 @@ class Appointment extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::class,
-
+            TimestampBehavior::class
         ];
     }
     /**
@@ -113,29 +106,39 @@ class Appointment extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        // Yii::$app->formatter->asDate($dateStr,"php:H:i:s"); // Example $dateStr -> "09:15:00" 
         return [
-            [[ 'appointment_number','appointment_time','reason_for_appointment'],  'required'],
-            [['appointment_time'], 'safe'],
-            [['patient_come_into_hospital'], 'string'],
-            [['reason_for_appointment', 'doctor_comments'], 'string', 'max' => 255],
+            [['appointment_time','reason_for_appointment','patient_id'],  'required'],
+            ['appointment_time', 'string', 'max' => 100 ],
+            [['reason_for_appointment'], 'string', 'max' => 255],
 
-            [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Doctor::class, 'targetAttribute' => ['doctor_id' => 'id']],
-            [['doctor_schedule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Doctorschedule::class, 'targetAttribute' => ['doctor_schedule_id' => 'id']],
+            [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => DoctorDetails::class, 'targetAttribute' => ['doctor_id' => 'staff_number']],
             [['patient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Patient::class, 'targetAttribute' => ['patient_id' => 'id']],
         ];
     }
 
-    /**
-     * Gets query for [[Doctor]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDoctor()
+    public function code()
     {
-        return $this->hasOne(Doctor::class, ['id' => 'doctor_id']);
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 6; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
+    
+
+    public function appointment(){
+        
+        $schedule   =   new Doctorschedule();
+        $doctor
+        $appointment   =   new  Appointment();
+        $appointment->patient_id  = $this->patient_id;
+        $appointment->appointment_time = $schedule->schedule();
+        $appointment->save();
+        
+    }
     /**
      * Gets query for [[DoctorSchedule]].
      *

@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL ^ E_DEPRECATED);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,7 +10,7 @@ $env = __DIR__ . '/../';
 // (new Dotenv\Dotenv($env))->load();
 $dotenv = Dotenv\Dotenv::createImmutable($env);
 $dotenv->safeLoad();
-
+// echo $_SERVER['MYSQL_DATABASE'];exit;
 if(getenv('APP_ENV') !== 'production') {
     defined('YII_DEBUG') or define('YII_DEBUG', true);
     defined('YII_ENV') or define('YII_ENV', 'dev');

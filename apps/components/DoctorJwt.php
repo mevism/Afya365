@@ -137,17 +137,7 @@ trait DoctorJwt
             'nbf' => $currentTime,
             'usr' => [
                 'id' => $this->id,
-                'staff number' => $this->staff_number,
-                'id number' => $this->id_number,
-                'first name' => $this->first_name,
-                'middle name' => $this->middle_name,
-                'last name' => $this->last_name,
-                'email' => $this->email,
-                'gender' => $this->gender,
-                'phone number' => $this->phone_number,
-                'speciality' => $this->speciality,
-                'date of birth' => $this->date_of_birth,
-              
+                'username' => $this->username,
             ],
             'exp' => static::getExpireIn()
         ], static::getHeaderToken());

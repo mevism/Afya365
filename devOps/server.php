@@ -2,7 +2,7 @@
 
 /** 
  * @OA\Server(
- *     url="http://localhost/Afya365/web"
+ *     url="http://localhost/Work/CrackIt/Afya365/web"
  * )
  * 
  */

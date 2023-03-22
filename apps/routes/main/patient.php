@@ -1,5 +1,28 @@
 <?php
 return [
+
+
+  /**
+   * @OA\Get(
+   *     path="/v1/viewpatient",
+   *     summary="Get list of all  the doctors",
+   *     tags={"Patient"},
+   *     @OA\Response(
+   *         response=200,
+   *         description="successful",
+   *         @OA\Schema(
+   *            type="array",
+   *            @OA\Items(ref="#/components/schemas/Patient")
+   *         )
+   *     ),
+   *     @OA\Response(
+   *        response=401,
+   *        description="Unauthorized",
+   *        @OA\Schema(ref="#/schemas/Unauthorized")
+   *     )
+   * )
+   */
+  'GET viewpatient' => 'patient/index',
     /**
      * @OA\Put(
      *     path="/v1/patient/{Id}",

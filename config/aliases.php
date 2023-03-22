@@ -16,6 +16,7 @@ return [
     '@forms'          =>   '@custom/forms',
     '@customModels'   =>   '@models/admin',
     'adminModels'     =>   '@customModels/custom',
+    'doctorModels'    =>   '@models/doctor',
     '@department'     =>   '@adminModels/department',
     '@adminSearch'    =>   '@customModels/search',
     '@doctor'         =>   '@models/doctor',

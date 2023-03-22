@@ -127,7 +127,7 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public function fields()
     {
-        return ['admin_id'=>function(){
+        return ['admin id'=>function(){
             return $this->id;
         }, 'phone number'=>function(){ 
             return $this->mobile; }, 'token'];

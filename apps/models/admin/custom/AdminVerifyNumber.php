@@ -102,8 +102,8 @@ class AdminVerifyNumber extends ActiveRecord
     public function verifyNumber()
     {
         $model = self::findOne(['user_id' => $this->user_id, 'OTP'  =>  $this->OTP]); 
-        $x =  "admin password reset";
-        $model->type = $x;          
+        $actor =  "Admin password reset";
+        $model->type = $actor;          
         $model->status = true;
         if($model->save(false)){
             

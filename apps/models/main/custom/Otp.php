@@ -95,7 +95,7 @@ class Otp extends ActiveRecord
 
     public function fields()
     {
-        return ['user_id', 'OTP'];
+        return ['user_id', 'OTP', 'type'];
     }
 
     public static  function sendToken($id, $silent = false)
