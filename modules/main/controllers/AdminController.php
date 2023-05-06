@@ -116,23 +116,8 @@ class AdminController extends Controller
         }
         return $this->apiUpdateDelete(false);
     }
-    public function actionDoctorschedule()
-    {
-          $dataRequest['Doctorschedule'] = Yii::$app->request->getBodyParams();
-           $model = new Doctorschedule();     
 
-        if($model->load($dataRequest)) {
-
-            return $model->schedule();
-            // return $this->apiGenerated($model);
-        }
-
-        // if($model->load($dataRequest) && $model->save()) {
-        //     return $this->apiGenerated($model);
-        // }
-        return $this->apiValidated($model->errors);
-    }
-
+   
     protected function findDoctorModel($id)
     {
         if(($model = DoctorDetails::findOne($id)) !== null) {
@@ -141,4 +126,5 @@ class AdminController extends Controller
             throw new NotFoundHttpException('This record does not exist');
         }
     }
+
 }

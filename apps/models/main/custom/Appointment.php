@@ -132,7 +132,7 @@ class Appointment extends \yii\db\ActiveRecord
     public function appointment(){
         
         $schedule   =   new Doctorschedule();
-        $doctor
+        // $doctor
         $appointment   =   new  Appointment();
         $appointment->patient_id  = $this->patient_id;
         $appointment->appointment_time = $schedule->schedule();

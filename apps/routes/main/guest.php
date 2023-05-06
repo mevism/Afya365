@@ -192,7 +192,7 @@ return [
 
     /**
      * @OA\Post(
-     *     path="/v1/requestpasswordreset",
+     *     path="/v1/requestPasswordReset",
      *     summary="Request Password Reset",
      *     tags={"Passwords"},
      *     description="Kindly provide your mobile number below.",
@@ -226,11 +226,11 @@ return [
      *   )
      * )
      */
-    'POST requestpasswordreset' => 'guest/requestpasswordreset',
+    'POST requestPasswordReset' => 'guest/requestpasswordreset',
     
     /**
      * @OA\Post(
-     *     path="/v1/verifynumber",
+     *     path="/v1/verifyNumber",
      *     summary="Verify your number",
      *     tags={"Passwords"},
      *     description="Kindly provide your mobile number below.",
@@ -269,11 +269,11 @@ return [
      *   )
      * )
      */
-    'POST verifynumber' => 'guest/verifynumber',
+    'POST verifyNumber' => 'guest/verifynumber',
 
      /**
      * @OA\Post(
-     *     path="/v1/resetpassword",
+     *     path="/v1/resetPassword",
      *     summary="Reset Password",
      *     tags={"Passwords"},
      *     description="Kindly provide your new password.",
@@ -316,11 +316,11 @@ return [
      *   )
      * )
      */
-    'POST resetpassword' => 'guest/resetpassword',
+    'POST resetPassword' => 'guest/resetpassword',
 
      /**
      * @OA\Post(
-     *     path="/v1/changepassword",
+     *     path="/v1/changePassword",
      *     summary="Change Password",
      *     tags={"Passwords"},
      *     description="Kindly provide your new password.",
@@ -362,7 +362,7 @@ return [
      *   )
      * )
      */
-    'POST changepassword' => 'guest/changepassword',
+    'POST changePassword' => 'guest/changepassword',
     
 
 ];

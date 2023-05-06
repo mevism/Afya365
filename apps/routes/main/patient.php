@@ -4,7 +4,7 @@ return [
 
   /**
    * @OA\Get(
-   *     path="/v1/viewpatient",
+   *     path="/v1/viewPatient",
    *     summary="Get list of all  the doctors",
    *     tags={"Patient"},
    *     @OA\Response(
@@ -22,7 +22,7 @@ return [
    *     )
    * )
    */
-  'GET viewpatient' => 'patient/index',
+  'GET viewPatient' => 'patient/index',
     /**
      * @OA\Put(
      *     path="/v1/patient/{Id}",
@@ -93,33 +93,4 @@ return [
      * )
      */
     'GET patient/{id}' => 'patient/view',
-
-    /**
-     * @OA\Post(
-     *     path="/v1/appointment",
-     *     summary="Create data for patient appointment",
-     *     tags={"Patient"},
-     *     @OA\RequestBody(
-     *     description="Create an appointment",
-     *     required=true,
-     *     @OA\JsonContent(ref="#/components/schemas/CreateAppointment"),
-     *     @OA\MediaType(
-     *         mediaType="application/xml",
-     *         @OA\Schema(ref="#/components/schemas/CreateAppointment")
-     *     )
-     * ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="successful",
-     *         @OA\JsonContent(ref="#/components/schemas/CreateAppointment"),
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="ValidateErrorException",
-     *         @OA\JsonContent(ref="#/components/schemas/Appointment")
-     *     ),
-     *     
-     * )
-     */
-    'POST appointment' => 'patient/appointment',
 ];

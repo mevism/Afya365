@@ -26,6 +26,11 @@
  *     description="Patient to update his/her details",
  *     
  * ),
+ *    @OA\Tag(
+ *     name="Appointment",
+ *     description="Appointment available information",
+ *     
+ * ),
  *   @OA\Tag(
  *     name="Speciality",
  *     description="Speciality available information",
@@ -39,6 +44,16 @@
  *   @OA\Tag(
  *     name="Doctor",
  *     description="Doctor to update his/her details",
+ *     
+ * ),
+ *   @OA\Tag(
+ *     name="DoctorSchedule",
+ *     description="Update Doctor Schedule Details",
+ *     
+ * ),
+ *   @OA\Tag(
+ *     name="Consultation",
+ *     description="Consultation Information",
  *     
  * ),
  */

@@ -8,12 +8,12 @@ use models\User;
 use models\Doctor;
 use userModels\Otp;
 use components\Controller;
-use adminSearch\DoctorSearch;
 use doctorModels\DoctorLogin;
 use doctorModels\DoctorDetails;
-use userModels\PasswordHistory;
+use doctorModels\Doctorschedule;
 use yii\web\NotFoundHttpException;
 use doctorModels\DoctorVerifyNumber;
+use adminSearch\DoctorScheduleSearch;
 use doctorModels\DoctorPasswordReset;
 use doctorModels\DoctorChangePassword;
 use doctorModels\DoctorPasswordResetRequestForm;
@@ -21,6 +21,19 @@ use doctorModels\DoctorPasswordResetRequestForm;
 class DoctorController extends Controller
 {
  
+
+    public function actionIndex()
+    {
+        $search['DoctorDetailsSearch'] = Yii::$app->request->queryParams;
+        $searchModel  = new DoctorDetailsSearch();
+        $dataProvider = $searchModel->search($search);
+        return $this->apiSuccess([
+            'count'      => $dataProvider->count,
+            'dataModels' => $dataProvider->models,
+        ], $dataProvider->totalCount);
+    }
+
+
     public function actionLogin()
     {
        $dataRequest['DoctorLogin'] = Yii::$app->request->post();
@@ -34,9 +47,7 @@ class DoctorController extends Controller
     public function actionChangepassword()
     {
         $dataRequest['DoctorChangePassword'] = Yii::$app->request->getBodyParams();
-        //  Yii::$app->user->identity->id;
         $model = new DoctorChangePassword();
-        // return $model;
         if ($model->load($dataRequest) &&  ($model->validate() && $user = $model->change())) {
             return $this->apiGenerated($user, "You have successfully changed your password.");
         }
@@ -104,4 +115,7 @@ class DoctorController extends Controller
             throw new NotFoundHttpException('This record does not exist');
         }
     }
+
+  
+
 }
